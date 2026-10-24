@@ -25,6 +25,7 @@
         <button class="dataset-button active" data-dataset="pilot" type="button">15-Hotspot Cities</button>
         <button class="dataset-button" data-dataset="allIndia" type="button">All-India</button>
       </div>
+      <button class="notes-button" id="data-notes-open" type="button" aria-haspopup="dialog" aria-controls="data-notes-modal">Data Notes</button>
     </header>
 
     <main class="app-shell">
@@ -81,9 +82,108 @@
       </aside>
     </main>
 
+    <!-- ================= Data Notes popup ================= -->
+    <div class="notes-overlay" id="data-notes-modal" role="dialog" aria-modal="true" aria-labelledby="notes-title" hidden>
+      <div class="notes-dialog">
+        <div class="notes-head">
+          <div>
+            <span class="notes-eyebrow">Reference</span>
+            <h2 id="notes-title">Data Notes</h2>
+          </div>
+          <button class="notes-close" id="data-notes-close" type="button" aria-label="Close data notes">&times;</button>
+        </div>
+        <div class="notes-tabs" role="tablist">
+          <button class="notes-tab active" role="tab" type="button" data-notes-tab="sources" aria-selected="true">Data Sources</button>
+          <button class="notes-tab" role="tab" type="button" data-notes-tab="notes" aria-selected="false">Data Notes</button>
+          <button class="notes-tab" role="tab" type="button" data-notes-tab="pipeline" aria-selected="false">Pipeline</button>
+        </div>
+        <div class="notes-body">
+
+          <!-- ---- Data Sources ---- -->
+          <section class="notes-panel active" data-notes-panel="sources" role="tabpanel">
+            <p class="notes-text">Every number on the map comes from one of the datasets below. Counts are raw, with no derived scores.</p>
+            <div class="notes-table-wrap">
+              <table class="notes-table">
+                <thead><tr><th>Dataset</th><th>Source</th><th>Year</th><th>Records</th><th>Govt./ Pvt.</th></tr></thead>
+                <tbody>
+                  <tr class="notes-group"><td colspan="5">Language Infrastructure</td></tr>
+                  <tr><td><a href="https://www.goethe.de/ins/in/en/sta.html" target="_blank" rel="noopener">Goethe Institute Locations</a></td><td>Goethe Institut</td><td>2026</td><td>6</td><td>Private</td></tr>
+                  <tr><td><a href="https://www.goethe.de/ins/in/en/sta/koo/goz.html" target="_blank" rel="noopener">Goethe Centre Locations</a></td><td>Goethe Institut</td><td>2026</td><td>4</td><td>Private</td></tr>
+                  <tr><td><a href="https://www.pasch-net.de/de/pasch-schulen/schulportraets.html#country_ids=94" target="_blank" rel="noopener">PASCH Schools List</a></td><td>PASCH Initiative</td><td>2026</td><td>56</td><td>Private</td></tr>
+                  <tr><td><a href="https://www.goethe.de/ins/in/en/sta/koo/pfz.html" target="_blank" rel="noopener">Examination Centres &ndash; Goethe Institut</a></td><td>Goethe Institut</td><td>2026</td><td>10</td><td>Private</td></tr>
+                  <tr><td><a href="https://www.telc.net/en/language-examinations/find-a-telc-examination-centre/" target="_blank" rel="noopener">telc Examination Centre</a></td><td>telc (The European Language Certificates)</td><td>2026</td><td>7</td><td>Private</td></tr>
+                  <tr><td><a href="https://dashboard.aishe.gov.in/hedirectory/#/hedirectory/universityMoreDetails/ALL/ALL" target="_blank" rel="noopener">No. of HEIs</a></td><td>AISHE &ndash; All-India Survey of Higher Education</td><td>2026</td><td>40</td><td>Both</td></tr>
+                  <tr><td><a href="https://sansad.in/getFile/loksabhaquestions/annex/187/AU290_XCmrug.pdf?source=pqals" target="_blank" rel="noopener">No. of SIICs</a></td><td>MSDE &ndash; Lok Sabha Question</td><td>2026</td><td>7</td><td>Government</td></tr>
+                  <tr><td><a href="http://www.pdot.mea.gov.in/pdotcenters/offlinecenters" target="_blank" rel="noopener">No. of PDOT centres</a></td><td>MEA &ndash; PDOT Portal</td><td>2026</td><td>92</td><td>Government</td></tr>
+                  <tr><td><a href="https://nsdcindia.org/sites/default/files/files/IISC-List-as-on-3rd-September-2020.pdf" target="_blank" rel="noopener">No. of IISCs</a></td><td>National Skill Development Corporation (NSDC)</td><td>2020</td><td>506</td><td>Government</td></tr>
+                  <tr class="notes-group"><td colspan="5">Health Infrastructure</td></tr>
+                  <tr><td><a href="https://nabh.co/find-a-healthcare-organisation/" target="_blank" rel="noopener">No. of Healthcare Facilities</a></td><td>National Accreditation Board for Hospitals &amp; Healthcare Providers (NABH)</td><td>2026</td><td>29,000+</td><td>Both</td></tr>
+                  <tr><td><a href="https://www.nmc.org.in/information-desk/for-students-to-study-in-india/list-of-college-teaching-mbbs/" target="_blank" rel="noopener">No. of NMC Medical Colleges</a></td><td>National Medical Commission (NMC)</td><td>2026</td><td>898</td><td>Both</td></tr>
+                  <tr><td><a href="https://indiannursingcouncil.org/uploads/pdf/ListOfNursingReport_31122024.pdf" target="_blank" rel="noopener">No. of INC Nursing Colleges</a></td><td>Indian Nursing Council (INC)</td><td>2024&ndash;26</td><td>3,484</td><td>Both</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ---- Data Notes ---- -->
+          <section class="notes-panel" data-notes-panel="notes" role="tabpanel">
+            <h3 class="notes-sub">Healthcare facilities (NABH)</h3>
+            <ul class="notes-list">
+              <li><b>Included:</b> Hospitals, Allopathic Clinics, Dental Facilities, Nursing Homes, Care Homes and Eye-Care Organizations &ndash; the facility types that count as documentable experience for Germany.</li>
+              <li><b>Excluded:</b> AYUSH and allied clinics, Blood banks, and Diagnostic laboratories.</li>
+            </ul>
+            <h3 class="notes-sub">Language infrastructure</h3>
+            <ul class="notes-list">
+              <li><b>Goethe / PASCH / Zentrum schools:</b> Goethe Institute and Goethe Centre locations plus PASCH schools.</li>
+              <li><b>Exam centres:</b> Goethe Institut and telc examination centres.</li>
+              <li><b>Government skilling infrastructure:</b> PDOT centres and SIICs (shown together) and IISCs.</li>
+              <li><b>IISC data is from 2020</b> (the NSDC list as on 3 September 2020); all other language datasets are 2026.</li>
+            </ul>
+            <h3 class="notes-sub">Scope and city mapping</h3>
+            <ul class="notes-list">
+              <li><b>15-Hotspot Cities</b> is the shortlisted set of cities; <b>All-India</b> shows the same datasets for the whole country.</li>
+              <li>In several entries the district and city names are the same, because those districts have a city with the same name apart from several other towns/cities.</li>
+              <li>Chandigarh and Delhi are Union territories; city-level mapping for them caused data discrepancies, so they are kept at UT level.</li>
+              <li>For some entries the district is used directly as the city, because the district is itself fully urban and its internal taluks do not carry the city&rsquo;s name.</li>
+              <li>Medical college counts for <b>Hyderabad (15)</b> and <b>Kochi (20)</b> are estimates based on a Google Maps search, as this data was not available in the consolidated scraper.</li>
+            </ul>
+          </section>
+
+          <!-- ---- Pipeline ---- -->
+          <section class="notes-panel" data-notes-panel="pipeline" role="tabpanel">
+            <h3 class="notes-sub">German Language and Culture Training in India</h3>
+            <dl class="notes-dl">
+              <dt>Context</dt>
+              <dd>KR 2.2 &ndash; 100% successful test &amp; launch of German Culture &amp; Language Training.</dd>
+              <dt>Problem statement</dt>
+              <dd>India lacks a high quality, scalable and accessible German language and culture training ecosystem and pipeline.</dd>
+              <dt>Strategic premise</dt>
+              <dd>India can scale German language and culture training faster by strengthening existing ecosystem assets rather than creating new institutions.</dd>
+            </dl>
+            <h3 class="notes-sub">Hypotheses</h3>
+            <div class="notes-table-wrap">
+              <table class="notes-table">
+                <thead><tr><th>#</th><th>Hypothesis to validate</th><th>Why landscape</th><th>Output</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Certain high-potential hotspots for German language and culture training already exist in India.</td><td>Identify cities with existing clusters</td><td>Top 3&ndash;5 priority locations (cities)</td></tr>
+                  <tr><td>2</td><td>There are natural supply pathways which convert domestic mobility into international mobility (place of birth &rarr; place of education &rarr; place of employment &rarr; overseas mobility) which can be leveraged to deliver language &amp; cultural training for German healthcare with limited new investments.</td><td>Identify and map existing pathways for healthcare</td><td>Pilot design model</td></tr>
+                  <tr><td>3</td><td>Global best practices can be adapted to strengthen India&rsquo;s German language and culture ecosystem.</td><td>Identify transferable best practices</td><td>Insights to design pilot/program</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notes-text">The data collected in this dashboard supports hypotheses 1 and 2: it produces the priority-city shortlist and maps the existing pathways.</p>
+            <h3 class="notes-sub">Outcome</h3>
+            <p class="notes-text">An evidence-based strategy and pilot model for scaling German language and culture training in India, with a focus on healthcare.</p>
+          </section>
+
+        </div>
+      </div>
+    </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/supercluster@8.0.1/dist/supercluster.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
     <script src="./app.js"></script>
+    <script src="./data-notes.js"></script>
   </body>
 </html>
