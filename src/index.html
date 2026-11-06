@@ -130,7 +130,6 @@
             <h3 class="notes-sub">Healthcare facilities (NABH)</h3>
             <ul class="notes-list">
               <li><b>Included:</b> Hospitals, Allopathic Clinics, Dental Facilities, Nursing Homes, Care Homes and Eye-Care Organizations &ndash; the facility types that count as documentable experience for Germany.</li>
-              <li><b>Excluded:</b> AYUSH and allied clinics, Blood banks, and Diagnostic laboratories.</li>
             </ul>
             <h3 class="notes-sub">Language infrastructure</h3>
             <ul class="notes-list">
@@ -151,30 +150,59 @@
 
           <!-- ---- Pipeline ---- -->
           <section class="notes-panel" data-notes-panel="pipeline" role="tabpanel">
-            <h3 class="notes-sub">German Language and Culture Training in India</h3>
+            <h3 class="notes-sub">Data Pipeline Architecture</h3>
+            <p class="notes-text">The data pipeline processes raw public registers, institutional directories, and web extractions across three sequential layers to power the interactive map and summary cards[cite: 2].</p>
+
             <dl class="notes-dl">
-              <dt>Context</dt>
-              <dd>KR 2.2 &ndash; 100% successful test &amp; launch of German Culture &amp; Language Training.</dd>
-              <dt>Problem statement</dt>
-              <dd>India lacks a high quality, scalable and accessible German language and culture training ecosystem and pipeline.</dd>
-              <dt>Strategic premise</dt>
-              <dd>India can scale German language and culture training faster by strengthening existing ecosystem assets rather than creating new institutions.</dd>
+              <dt>Layer 1: Source Ingestion &amp; Scraping</dt>
+              <dd>After identifying data sources, we pull unstructured and semi-structured datasets: Specifically for NABH, we have a resumable Python scraper (<code>nabh_scraper.py</code>) fetching 20,000+ facilities to JSONL checkpoints[cite: 2], <code>pdfplumber</code> scripts parsing NMC UG/PG medical seat matrices[cite: 2], and human-verified extractions for INC nursing colleges, Goethe-Institut/telc test centres, and MSDE/NSDC skilling directories[cite: 2].</dd>
+
+              <dt>Layer 2: Screening &amp; Deduplication</dt>
+              <dd>Facilities undergo two-stage deduplication by accreditation number and composite key <code>(name, state, city/pincode)</code>[cite: 2].</dd>
+
+              <dt>Layer 3: Normalization &amp; Geocoding (<code>normalize.py</code>)</dt>
+              <dd>Maps raw records into unified schemas, resolving address text to authoritative city-state mappings, resolving district-level aggregations (Notes 1&ndash;4, Delhi/Mumbai consolidation)[cite: 2], and exporting production-ready assets: <code>infrastructure-cleaned.json</code>, <code>cities.json</code>, and <code>states.json</code>[cite: 2].</dd>
+
+              <dt>Runtime Reconciliation</dt>
+              <dd>Dynamic client-side aggregation (<code>recountFromPoints()</code>) computes domain and category totals at runtime from rendered coordinates, preventing numeric drift between UI cards, data tables, and map markers[cite: 2].</dd>
             </dl>
-            <h3 class="notes-sub">Hypotheses</h3>
+
+            <h3 class="notes-sub">Pipeline Stages &amp; Data Transformations</h3>
             <div class="notes-table-wrap">
               <table class="notes-table">
-                <thead><tr><th>#</th><th>Hypothesis to validate</th><th>Why landscape</th><th>Output</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>Stage</th>
+                    <th>Input Sources</th>
+                    <th>Processing &amp; Validation Logic</th>
+                    <th>Output Artifact</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <tr><td>1</td><td>Certain high-potential hotspots for German language and culture training already exist in India.</td><td>Identify cities with existing clusters</td><td>Top 3&ndash;5 priority locations (cities)</td></tr>
-                  <tr><td>2</td><td>There are natural supply pathways which convert domestic mobility into international mobility (place of birth &rarr; place of education &rarr; place of employment &rarr; overseas mobility) which can be leveraged to deliver language &amp; cultural training for German healthcare with limited new investments.</td><td>Identify and map existing pathways for healthcare</td><td>Pilot design model</td></tr>
-                  <tr><td>3</td><td>Global best practices can be adapted to strengthen India&rsquo;s German language and culture ecosystem.</td><td>Identify transferable best practices</td><td>Insights to design pilot/program</td></tr>
+                  <tr>
+                    <td>1. Scraping &amp; PDF Extraction</td>
+                    <td>NABH Portal[cite: 2], NMC PG PDFs[cite: 2], INC Nursing Reports[cite: 2], NSDC / MEA Portals[cite: 2]</td>
+                    <td>Rule-based category classification by certificate URL, badge class, and acc. number prefix[cite: 2]; table extraction with forward-fill for merged PDF cells[cite: 2].</td>
+                    <td>Raw <code>.jsonl</code> checkpoints and intermediate <code>.xlsx</code> QA sheets[cite: 2]</td>
+                  </tr>
+                  <tr>
+                    <td>2. Eligibility &amp; Deduplication</td>
+                    <td>Raw facility &amp; college records[cite: 2]</td>
+                    <td>German recognition filter; two-stage deduplication[cite: 2].</td>
+                    <td>Curated, qualified allopathic clinical &amp; training registry[cite: 2]</td>
+                  </tr>
+                  <tr>
+                    <td>3. City Mapping &amp; Normalization</td>
+                    <td>Cleaned records + Pin-code/Address strings[cite: 2]</td>
+                    <td>Address text parsed for canonical state/city[cite: 2]; geographical entity grouping (Notes 1&ndash;4; Delhi 9-district union, Mumbai City + Suburban merge)[cite: 2].</td>
+                    <td><code>infrastructure-cleaned.json</code>, <code>cities.json</code>, <code>states.json</code>[cite: 2]</td>
+                  </tr>
+                 
                 </tbody>
               </table>
             </div>
-            <p class="notes-text">The data collected in this dashboard supports hypotheses 1 and 2: it produces the priority-city shortlist and maps the existing pathways.</p>
-            <h3 class="notes-sub">Outcome</h3>
-            <p class="notes-text">An evidence-based strategy and pilot model for scaling German language and culture training in India, with a focus on healthcare.</p>
-          </section>
+
+           </section>
 
         </div>
       </div>
