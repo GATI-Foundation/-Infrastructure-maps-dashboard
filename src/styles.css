@@ -15,7 +15,12 @@
   --line: #D8E2E7;
   --surface: #F4F8F9;
   --panel: #ffffff;
-  --header-h: 60px;
+  --header-h: 56px;
+  /* GATI chrome palette (header / footer / popup) */
+  --hdr: #0F5B5A;
+  --gold: #D4940A;
+  --foot: #0A3E3D;
+  --foot-ink: #CFE3E0;
 }
 
 * {
@@ -510,8 +515,8 @@ h1 {
 }
 
 .dataset-button.active {
-  background: var(--yellow);
-  color: var(--teal-deep);
+  background: var(--gold);
+  color: #fff;
 }
 
 /* The true-coordinates toggle now applies to both datasets: the all-India
@@ -536,13 +541,18 @@ h1 {
 /* ================= GATI header ================= */
 .site-header {
   height: var(--header-h);
+  min-height: var(--header-h);
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 16px;
   padding: 0 18px;
-  background: var(--teal-deep);
-  border-bottom: 3px solid var(--yellow);
+  background: var(--hdr);
+  border-bottom: 3px solid var(--gold);
   color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .brand {
@@ -556,9 +566,9 @@ h1 {
    so this is a plain gold chevron rule rather than a redrawn symbol. */
 .brand-mark {
   width: 6px;
-  height: 28px;
+  height: 26px;
   border-radius: 3px;
-  background: linear-gradient(180deg, var(--yellow), var(--gold-light));
+  background: linear-gradient(180deg, var(--gold), var(--gold-light));
   flex: none;
 }
 
@@ -899,9 +909,9 @@ body {
 
 .notes-button:hover,
 .notes-button:focus-visible {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  color: var(--teal-deep);
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
 }
 
 body.notes-open { overflow: hidden; }
@@ -910,7 +920,7 @@ body.notes-open { overflow: hidden; }
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(0, 51, 58, 0.55);
+  background: rgba(10, 62, 61, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -926,8 +936,8 @@ body.notes-open { overflow: hidden; }
   flex-direction: column;
   background: var(--panel);
   border-radius: 12px;
-  border-top: 4px solid var(--yellow);
-  box-shadow: 0 24px 60px rgba(0, 51, 58, 0.35);
+  border-top: 4px solid var(--gold);
+  box-shadow: 0 24px 60px rgba(10, 62, 61, 0.35);
   overflow: hidden;
 }
 
@@ -944,7 +954,7 @@ body.notes-open { overflow: hidden; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--hdr);
 }
 
 .notes-head h2 {
@@ -986,8 +996,8 @@ body.notes-open { overflow: hidden; }
 }
 
 .notes-tab.active {
-  color: var(--teal-deep);
-  border-bottom-color: var(--yellow);
+  color: var(--foot);
+  border-bottom-color: var(--gold);
 }
 
 .notes-body {
@@ -1006,7 +1016,7 @@ body.notes-open { overflow: hidden; }
 .notes-sub {
   margin: 18px 0 6px;
   font-size: 14px;
-  color: var(--teal);
+  color: var(--hdr);
 }
 
 .notes-sub:first-child { margin-top: 0; }
@@ -1029,7 +1039,7 @@ body.notes-open { overflow: hidden; }
 .notes-table th {
   text-align: left;
   background: var(--surface);
-  color: var(--teal-deep);
+  color: var(--foot);
   font-weight: 700;
   padding: 7px 10px;
   border-bottom: 2px solid var(--line);
@@ -1042,11 +1052,11 @@ body.notes-open { overflow: hidden; }
   vertical-align: top;
 }
 
-.notes-table a { color: var(--teal); font-weight: 600; text-decoration: none; }
+.notes-table a { color: var(--hdr); font-weight: 600; text-decoration: none; }
 .notes-table a:hover { text-decoration: underline; }
 
 .notes-table .notes-group td {
-  background: var(--teal-deep);
+  background: var(--foot);
   color: #fff;
   font-weight: 700;
   font-size: 11.5px;
@@ -1057,4 +1067,73 @@ body.notes-open { overflow: hidden; }
 @media (max-width: 560px) {
   .notes-overlay { padding: 10px; }
   .notes-button { padding: 7px 12px; }
+}
+
+
+/* ================= GATI footer (end of the right-hand pane) ================= */
+/* It sits after the location table, so it only appears once the person has
+   scrolled past the last state/city row. Map space is untouched. */
+.detail-pane { display: block; }
+
+.gati-foot {
+  background: var(--foot);
+  border-top: 3px solid var(--gold);
+  color: var(--foot-ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.6;
+  text-align: left;
+  /* full-bleed to the pane edges; the white space above it comes from .panel's min-height */
+  margin: 0 -18px -18px;
+  padding: 18px 18px 0;
+}
+
+.gati-foot__inner { display: grid; gap: 14px; }
+
+.gati-foot__logo { display: block; height: 28px; width: auto; margin-bottom: 8px; }
+
+.gati-foot__badge {
+  display: inline-block;
+  margin: 0 0 6px;
+  padding: 1px 9px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.gati-foot__tag { margin: 0; }
+
+.gati-foot h4 {
+  margin: 0 0 3px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.gati-foot address { font-style: normal; }
+
+.gati-foot__links { display: grid; gap: 1px; }
+
+.gati-foot a { color: var(--foot-ink); text-decoration: none; }
+.gati-foot a:hover { color: #fff; text-decoration: underline; }
+
+.gati-foot__base {
+  display: grid;
+  gap: 2px;
+  margin: 16px -18px 0;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(207, 227, 224, 0.2);
+  font-size: 11px;
+  color: rgba(207, 227, 224, 0.8);
+}
+
+/* The list area is at least one screen tall, so a short list (e.g. 8 states)
+   leaves white space beneath it and the footer starts below the fold. It only
+   comes into view when the person scrolls the white space after the last row. */
+@media (min-width: 901px) {
+  .detail-pane .panel { min-height: calc(100vh - var(--header-h)); }
 }
