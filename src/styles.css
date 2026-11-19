@@ -571,7 +571,11 @@ h1 {
   background: linear-gradient(180deg, var(--gold), var(--gold-light));
   flex: none;
 }
-
+.brand-logo {
+  display: block;
+  height: 36px;   /* header is 56px with a 3px border, so this fits without growing it */
+  width: auto;
+}
 .brand-text {
   display: grid;
   line-height: 1.1;
