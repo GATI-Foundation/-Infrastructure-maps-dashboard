@@ -6,7 +6,7 @@
     <title>GATI &middot; Infrastructure Map</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="./styles.css">
     
@@ -79,6 +79,32 @@
         <section class="panel">
           <div id="location-table" class="location-table"></div>
         </section>
+
+        <footer class="gati-foot">
+          <div class="gati-foot__inner">
+            <div class="gati-foot__brand">
+              <img class="gati-foot__logo" src="../assets/img/gati-logo-white.svg" alt="GATI Foundation">
+              <p class="gati-foot__badge">Official GATI Foundation dashboard</p>
+              <p class="gati-foot__tag">Global Access to Talent from India, building the global skills-mobility ecosystem.</p>
+            </div>
+            <div>
+              <h4>Address</h4>
+              <address>GATI Foundation<br>242, Okhla Industrial Estate Phase 3 Rd<br>Okhla Phase III, New Delhi<br>Delhi 110020, India</address>
+            </div>
+            <div>
+              <h4>Contact</h4>
+              <div class="gati-foot__links">
+                <a href="mailto:info@gatifoundation.org">info@gatifoundation.org</a>
+                <a href="https://www.gatifoundation.org/" target="_blank" rel="noopener">gatifoundation.org</a>
+                <a href="https://www.linkedin.com/company/gati-foundation/" target="_blank" rel="noopener">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+          <div class="gati-foot__base">
+            <span>&copy; GATI Foundation. Incubated by The Convergence Foundation.</span>
+            <span>Data: Goethe-Institut &middot; telc &middot; AISHE &middot; MSDE &middot; MEA &middot; NSDC &middot; NABH &middot; NMC &middot; INC</span>
+          </div>
+        </footer>
       </aside>
     </main>
 
@@ -151,20 +177,20 @@
           <!-- ---- Pipeline ---- -->
           <section class="notes-panel" data-notes-panel="pipeline" role="tabpanel">
             <h3 class="notes-sub">Data Pipeline Architecture</h3>
-            <p class="notes-text">The data pipeline processes raw public registers, institutional directories, and web extractions across three sequential layers to power the interactive map and summary cards[cite: 2].</p>
+            <p class="notes-text">The data pipeline processes raw public registers, institutional directories, and web extractions across three sequential layers to power the interactive map and summary cards.</p>
 
             <dl class="notes-dl">
               <dt>Layer 1: Source Ingestion &amp; Scraping</dt>
-              <dd>After identifying data sources, we pull unstructured and semi-structured datasets: Specifically for NABH, we have a resumable Python scraper (<code>nabh_scraper.py</code>) fetching 20,000+ facilities to JSONL checkpoints[cite: 2], <code>pdfplumber</code> scripts parsing NMC UG/PG medical seat matrices[cite: 2], and human-verified extractions for INC nursing colleges, Goethe-Institut/telc test centres, and MSDE/NSDC skilling directories[cite: 2].</dd>
+              <dd>After identifying data sources, we pull unstructured and semi-structured datasets: Specifically for NABH, we have a resumable Python scraper (<code>nabh_scraper.py</code>) fetching 20,000+ facilities to JSONL checkpoints, <code>pdfplumber</code> scripts parsing NMC UG/PG medical seat matrices, and human-verified extractions for INC nursing colleges, Goethe-Institut/telc test centres, and MSDE/NSDC skilling directories.</dd>
 
               <dt>Layer 2: Screening &amp; Deduplication</dt>
-              <dd>Facilities undergo two-stage deduplication by accreditation number and composite key <code>(name, state, city/pincode)</code>[cite: 2].</dd>
+              <dd>Facilities undergo two-stage deduplication by accreditation number and composite key <code>(name, state, city/pincode)</code>.</dd>
 
               <dt>Layer 3: Normalization &amp; Geocoding (<code>normalize.py</code>)</dt>
-              <dd>Maps raw records into unified schemas, resolving address text to authoritative city-state mappings, resolving district-level aggregations (Notes 1&ndash;4, Delhi/Mumbai consolidation)[cite: 2], and exporting production-ready assets: <code>infrastructure-cleaned.json</code>, <code>cities.json</code>, and <code>states.json</code>[cite: 2].</dd>
+              <dd>Maps raw records into unified schemas, resolving address text to authoritative city-state mappings, resolving district-level aggregations (Notes 1&ndash;4, Delhi/Mumbai consolidation), and exporting production-ready assets: <code>infrastructure-cleaned.json</code>, <code>cities.json</code>, and <code>states.json</code>.</dd>
 
               <dt>Runtime Reconciliation</dt>
-              <dd>Dynamic client-side aggregation (<code>recountFromPoints()</code>) computes domain and category totals at runtime from rendered coordinates, preventing numeric drift between UI cards, data tables, and map markers[cite: 2].</dd>
+              <dd>Dynamic client-side aggregation (<code>recountFromPoints()</code>) computes domain and category totals at runtime from rendered coordinates, preventing numeric drift between UI cards, data tables, and map markers.</dd>
             </dl>
 
             <h3 class="notes-sub">Pipeline Stages &amp; Data Transformations</h3>
@@ -181,28 +207,26 @@
                 <tbody>
                   <tr>
                     <td>1. Scraping &amp; PDF Extraction</td>
-                    <td>NABH Portal[cite: 2], NMC PG PDFs[cite: 2], INC Nursing Reports[cite: 2], NSDC / MEA Portals[cite: 2]</td>
-                    <td>Rule-based category classification by certificate URL, badge class, and acc. number prefix[cite: 2]; table extraction with forward-fill for merged PDF cells[cite: 2].</td>
-                    <td>Raw <code>.jsonl</code> checkpoints and intermediate <code>.xlsx</code> QA sheets[cite: 2]</td>
+                    <td>NABH Portal, NMC PG PDFs, INC Nursing Reports, NSDC / MEA Portals</td>
+                    <td>Rule-based category classification by certificate URL, badge class, and acc. number prefix; table extraction with forward-fill for merged PDF cells.</td>
+                    <td>Raw <code>.jsonl</code> checkpoints and intermediate <code>.xlsx</code> QA sheets</td>
                   </tr>
                   <tr>
                     <td>2. Eligibility &amp; Deduplication</td>
-                    <td>Raw facility &amp; college records[cite: 2]</td>
-                    <td>German recognition filter; two-stage deduplication[cite: 2].</td>
-                    <td>Curated, qualified allopathic clinical &amp; training registry[cite: 2]</td>
+                    <td>Raw facility &amp; college records</td>
+                    <td>German recognition filter; two-stage deduplication.</td>
+                    <td>Curated, qualified allopathic clinical &amp; training registry</td>
                   </tr>
                   <tr>
                     <td>3. City Mapping &amp; Normalization</td>
-                    <td>Cleaned records + Pin-code/Address strings[cite: 2]</td>
-                    <td>Address text parsed for canonical state/city[cite: 2]; geographical entity grouping (Notes 1&ndash;4; Delhi 9-district union, Mumbai City + Suburban merge)[cite: 2].</td>
-                    <td><code>infrastructure-cleaned.json</code>, <code>cities.json</code>, <code>states.json</code>[cite: 2]</td>
+                    <td>Cleaned records + Pin-code/Address strings</td>
+                    <td>Address text parsed for canonical state/city; geographical entity grouping (Notes 1&ndash;4; Delhi 9-district union, Mumbai City + Suburban merge).</td>
+                    <td><code>infrastructure-cleaned.json</code>, <code>cities.json</code>, <code>states.json</code></td>
                   </tr>
-                 
                 </tbody>
               </table>
             </div>
-
-           </section>
+          </section>
 
         </div>
       </div>
